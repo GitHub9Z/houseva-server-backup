@@ -61,7 +61,7 @@ function filterDeleteUnitList(list) {
     }
     return result;
 }
-
+//...
 
 async function batchQueryLightSitePlan(realEstateList) {
     if (!realEstateList ||realEstateList.length <= 0) {
