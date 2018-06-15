@@ -1,0 +1,63 @@
+{% extends "./layout/base-frame.html" %}
+ 
+{% block body %}
+ 
+<div class='root-body'>
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <span class='logo'>小鸡评房</span>
+            <div class='search-bar'>
+                <input class='search-input' placeholder="搜索楼盘或户型">
+                <img class='icon-m search-icon' src='image/search.png'/>
+            </div>
+        </div>
+    </div>
+
+    <div class='middle-content'>
+         <div class='apply-box' style='padding: 12px;'>
+            <h4 style='margin:10px 0'>申请小鸡评房服务</h4>
+            <div><b>一.根据评测类型，将如下资料发至邮箱298860135@qq.com</b></div>
+            <p>
+            1.日照评测：楼盘名称，有尺寸的楼盘总平面图，楼栋号，楼层数等相关日照评测的内容<br/>
+            2.户型评测：楼盘名称，有尺寸的户型平面图，户型编号，户型面积等相关户型评测的内容<br/>
+            注明申请的是日照，户型专家买房看速测还是公测。
+            </p>
+
+            <div><b>二.户型，日照专家公测与买房看房速测的区别：</b></div>
+            <p>
+            户型，日照专家公测：小鸡评房接受公测，公测制作时间按照申请人次热门程度等进行评测，免费，但是需要排队等待一定时间<br/>
+            户型，日照专家公测还是买房速测：为买房看房的用户提供快速的针对性的户型，日照专家评测，收取一定费用<br/>
+            </p>
+
+            <div><b>三. 户型，日照专家速测收费价格</b></div>
+            <p>
+            1.楼层日照专家评测服务原价299元一层，包含整层冬至日日照评测，目前活动价119元，分享获得更多优惠<br/>
+            2.楼栋立面日照专家评测服务原价2999元一栋，评测整栋南立面冬至日日照情况，目前活动价1119元；也可以选择指定楼层范围评测，如15-25层，每层活动价69元相对优惠；分享获得更多优惠<br/>
+            3.户型专家评测服务：原价10元一平方，五大方面系统性的户型评测服务，目前活动价3元，分享获得更多优惠。
+            </p>
+            
+            <div><b>三.提供楼盘准确总平面图纸，户型图，包含准确数据，格式为CAD,JPG的文件，可以享受特价评测，图纸发送298860135@qq.com</b></div>
+            <div class='desc-sub' style='margin:10px 0;'>亲，可以通过以下方法获得小区总平面图：一，咨询业主群的朋友是有否认识设计院的，人多力量大 ，设计院一般有图纸，或者到小区物业查询总平面图纸。二，市民可凭个人有效身份证件到省/市城建档案馆查询登记查询；业主凭房产证或有效购房合同及个人有效身份证件可查阅并复印所在住宅小区的规划图。</div>
+        </div>
+        <div style='text-align:center'>
+            <div>申请公开评测，限时特惠，请关注小鸡评房公众号</div>
+            <img src='/image/gz_scan.jpg'>
+        </div>
+    </div>
+
+    <ul class='tab-launcher-bar'>
+        <li><a href="/index.html">首页</a></li>
+        <li  class='active'><a href="#">申请评测</a></li>
+        <li><a href="/my.html">我的</a></li>
+    </ul>
+</div>
+
+<script>
+
+$(function() {
+    PageRenderer.initTitleBar()
+});
+
+
+</script>
+{% endblock %}

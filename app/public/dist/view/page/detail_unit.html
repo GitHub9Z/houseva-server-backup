@@ -1,0 +1,151 @@
+{% extends "./layout/base-frame.html" %}
+
+{% block body %}
+
+<div class='root-body'>
+    <!-- title bar -->
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <a class='prev action-return'><img class='icon-m' src='image/prev.png'></a>
+            <div class='title title-text'></div>
+        </div>
+    </div>
+
+    <div style='clear:both'></div>
+
+    <div class='fix-with-root title-nav'>
+        <ul class="nav nav-pills tab-header bottom-tab-header nav-equal-size">
+            <li class='active'><a>户型</a></li>
+            <li class='light'><a>日照</a></li>
+        </ul>
+    </div>
+
+    <div class='tab-body' style='margin-top:80px'>
+        <ul class="nav nav-pills nav-sub circle-nav-sm nav-unit-no"></ul>
+        <div style='clear:both'></div>
+
+        <div class='unit-panels' style='margin-top:10px;display:none;'>
+            <div class='unit-panel unit-synthesis'>
+                <div class='panel-title'><span class='title'></span><span class='score'></span></div>
+                <div class='bars'></div>
+                <div class='comment'></div>
+                <div class='desc-sub'>
+                    说明：户型评测总分为5项专家评测的平均得分，户型评测总分不宜低于70分，否则影响居住体验，评测总分大于等于100分，居住体验优秀。<br/>
+                    基本信息，分区流线，采光通风，细节评价四项满分为100分；面积尺寸项评价得分不封顶，得分越高越好。<br/>
+                    5项评测除面积尺度外每项得分不宜低于70分，否则影响单项居住体验。<br/>
+                    数据来自网络及用户，仅供参考。
+                </div>
+            </div>
+
+            <div class='unit-panel unit-basic-info'>
+                <div class='panel-title'><span class='title'>1.基本信息</span><span class='score'>0分</span></div>
+                <div class='image-box'><img /></div>
+                <div class='bars'></div>
+                <div class='comment'></div>
+                <div class='desc-sub'>
+                    说明：黄色表示评测达标，红色表示评测低于最低标准，需要重点关注<br/>
+                    基本信息评测得分不宜低于70分，否则面积性价比较差；<br/>
+                    实际得房率指加上阳台，飘窗等增值后的户型套内面积，越大性价比越高，不宜小于85%，否则性价比偏低。<br/>
+                    实际单价=（户型销售单价X户型建筑面积）/ 户型实际套内面积，请自行计算。<br/>
+                    套内面积指户型外墙中心线以内的面积。<br/>
+                    户型开进比指户型总开间与总进深之比，越大采光通风越好，不宜小于0.7，否则通风采光效果较差。<br/>
+                    户型方正率比指户型同面积的正方形周长与户型周长之比，越大越规则，保温易使用，不宜小于0.7，否则增加户型能耗且空间不易使用。<br/>
+                    评测等级：A级 > B级 > C级 > D级，等级划分按照大量户型，用户调研，居住行为的数据统计及国家规范，居住专业理论的综合模型评定。<br/>
+                    数据来自网络及用户，仅供参考。
+                </div>
+            </div>
+
+            <div class='unit-panel unit-room-area'>
+                <div class='panel-title'><span class='title'>2.面积尺寸</span><span class='score'>0分</span></div>
+                <div class='image-box'><img /></div>
+                <div class='bars'></div>
+                <div class='comment'></div>
+                <div class='desc-sub'>
+                    说明： 黄色表示评测达标，红色表示评测低于最低标准，需要重点关注<br/>
+                    面积统计为房间的使用面积，即房间墙外表面以内的面积。<br/>
+                    卧室不宜小于8方，书房不宜小于5方，客餐厅不宜小于20方<br/>
+                    厨房不宜小于5方，卫生间不宜小于3.5方，玄关不宜小于1.5方<br/>
+                    房间面积小于最小标准时，不易满足居住，家具对空间尺度的需求。<br/>
+                    卫生间大于等于3.5方，便于设置三件套(马桶，脸盆，淋浴)<br/>
+                    卫生间大于等于5.5方，便于设置四件套(马桶，脸盆，淋浴，浴缸)<br/>
+                    开进比指房间开间与进深之比，越大空间尺度感越好，采光通风越好，不宜小于0.7，否则房间空间尺度感及采光较差。<br/>
+                    纯走道占比指纯走道与套内面积之比，越大浪费越多，不宜大于10%。<br/>
+                    可储藏指相对固定的主要储藏，面积统计按照常规家具尺寸计算，可储藏占比指可储藏面积与套内面积之比，越大越好，不宜小于8%<br/>
+                    评测等级：A级 > B级 > C级 > D级，等级划分按照大量户型，用户调研，居住行为的数据统计及国家规范，居住专业理论的综合模型评定。<br/>
+                    数据来自网络及用户，仅供参考。
+                </div>
+            </div>
+
+            <div class='unit-panel unit-region-flow'>
+                <div class='panel-title'><span class='title'>3.分区流线</span><span class='score'>0分</span></div>
+                <div class='image-box'><img /></div>
+                <div class='bars'></div>
+                <div class='comment'></div>
+                <div class='desc-sub'>
+                    说明：黄色表示评测达标，红色表示评测低于最低标准，需要重点关注<br/>
+                    分区流线评测得分不宜低于70分，否则居住活动舒适性较差；<br/>
+                    动区指客厅，餐厅，厨房，公卫，阳台等家人经常活动房间；静区指卧室，书房等家人休息学习的房间。<br/>
+                    与动区直接相邻的静区不宜大于等于2个，否则多种居住活动之间会产生较多相互噪声，视线的干扰； <br/>
+                    流线距离按照居住活动的步行平均距离计算，越大越不便利，不宜大于10米，否则居住行为的舒适性降低；<br/>
+                    评测等级：A级> B级> C级，等级划分按照大量户型，用户调研，居住行为的数据统计及国家规范，居住专业理论的综合模型评定。
+                    数据来自网络及用户，仅供参考。
+                </div>
+            </div>
+
+            <div class='unit-panel unit-window-ventilate'>
+                <div class='panel-title'><span class='title'>4.采光通风</span><span class='score'>0分</span></div>
+                <div class='image-box'><img /></div>
+                <div class='bars'></div>
+                <div class='comment'></div>
+                <div class='desc-sub'>
+                    说明：黄色表示评测达标，红色表示评测低于最低标准，需要重点关注<br/>
+                    采光通风评测得分不宜低于70分，否则采光通风较差；<br/>
+                    窗深比表示窗宽与房间进深的比例，依据采光模拟数据统计，得出窗深比不宜小于30%，否则房间较深处采光照度会低于60LX，过于昏暗；<br/>
+                    通风按照类型等级，通风路径，模型模拟，数据统计得出初步规律，需高精度通风评测联系制作通风专家评测；<br/>
+                    评测等级：A级> B级 > C级 > D级，等级划分按照大量户型，用户调研，居住行为的数据统计及国家规范，居住专业理论的综合模型评定。<br/>
+                    数据来自网络及用户，仅供参考。
+                </div>
+            </div>
+
+            <div class='unit-panel unit-detail'>
+                <div class='panel-title'><span class='title'>5.细节</span><span class='score'>0分</span></div>
+                <div class='image-box'><img/></div>
+                <div class='sections'></div>
+                <div class='comment'></div>
+                <div class='desc-sub'>
+                说明：黄色表示评测达标，红色表示评测低于最低标准，需要重点关注<br/>
+                细节评测得分不宜低于70分，否则细节居住体验较差；<br/>
+                数据来自网络及用户，仅供参考。
+            </div>
+
+            <div class='view-count-box'><div class='view-count-wrap'><span class='view-count'></span>次查看</div></div>
+            <div class='desc-sub'>
+                免责声明：本户型评测数据来自网络与用户，由于设计，施工，装修，公示等变更与误差的影响，无法完全符合建成的情况，仅供参考，以开发商提供的户型数据为准。户型评测图中，墙体仅示意空间分布，具体承重结构等详见开发商提供的图纸。用户不得将其用于其他任何活动，本网站不承担任何责任。
+            </div>
+        </div>
+
+        <div class='empty-content-info' style='display:none'>
+            <div class='empty-title'>户型评测暂时未制作</div>
+            &nbsp;&nbsp;&nbsp;&nbsp;亲，户型的布局，尺度，流线，细节等等决定了长期居住生活的舒适，健康，合理；户型品质是买房必须考虑的关键因素之一。小鸡评房为亲提供数据化，专家级的户型评测服务，帮助亲选到好户型，安个满意的家。<br/>
+            <a class='btn-main btn-long btn-apply' href='/evaluate.html'>申请专家评测服务</a>
+        </div>
+    </div>
+</div>
+
+<script id='detail-section-tpl' type='text/template'>
+    <div class='detail-section'>
+        <div class='section-title'></div>
+        <div class='section-items-wrap'></div>
+    </div>
+</script>
+
+<script id='detail-section-item-tpl' type='text/template'>
+    <div class='section-item'>
+        <span class='name'></span>
+        <span class='value'></span>
+    </div>
+</script>
+
+<script src="/js/module/detail_unit-87e421200a.js"></script>
+
+{% endblock %}

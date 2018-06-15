@@ -1,0 +1,79 @@
+{% extends "./layout/base-frame.html" %}
+ 
+{% block body %}
+ 
+<div class='root-body'>
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <span>小鸡评房</span>
+            <div class='search-bar'>
+                <input class='search-input' placeholder="搜索楼盘或户型">
+                <img class='icon-m search-icon' src='image/search.png'/>
+            </div>
+        </div>
+    </div>
+
+    <div class='middle-content'>
+        <div>
+            <img src='image/index.jpg' style='width:100%;max-height:200px;'></img>
+        </div>
+
+        <div class='index-content'>
+            <div class='unit-list-wrap'>
+                <div class='list-header'>杭州最近热门楼盘户型评测</div>
+                {% include "tile/evaluate_list.html" %}
+            </div>
+            <div class='real-estate-list-wrap'>
+                <div class='list-header list-headre-sec'>杭州最近热门楼盘日照评测</div>
+                {% include "tile/evaluate_list.html" %}
+            </div>
+            <a class='btn-main btn-long' href='/search.html'>点击搜索更多楼盘或户型</a>
+        </div>
+
+        <div style='clear:both'></div>
+    </div>
+
+    <ul class='tab-launcher-bar'>
+        <li class='active'><a href="#index">首页</a></li>
+        <li><a href="/evaluate.html">申请评测</a></li>
+        <li><a href="/my.html">我的</a></li>
+    </ul>
+</div>
+
+<style>
+
+a {
+    text-decoration: none;
+}
+
+</style>
+
+<script>
+
+    $(function() {
+        PageRenderer.initTitleBar();
+
+        // 初始化ajax
+        $.ajax({
+            url: "/api/queryIndex",
+            data: {size: 20},
+            dataType: 'json',
+            success: function(response){
+                var data = response.data;
+                if (data.light) {
+                    PageRenderer.renderEvaluateList($(".real-estate-list-wrap"), data.light);
+                }
+                if (data.unit) {
+                    PageRenderer.renderEvaluateList($(".unit-list-wrap"), data.unit);
+                }
+                // console.debug(response);
+            }, 
+            error: function(response) {
+                console.debug(response);
+            }
+        });
+    });
+
+</script>
+
+{% endblock %}

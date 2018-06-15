@@ -1,0 +1,105 @@
+{% extends "./layout/base-frame.html" %}
+ 
+{% block body %}
+ 
+<div class='root-body'>
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <span class='logo'>小鸡评房</span>
+            <div class='search-bar'>
+                <input class='search-input' placeholder="搜索楼盘或户型">
+                <img class='icon-m search-icon' src='image/search.png'/>
+            </div>
+        </div>
+    </div>
+
+    <div class='middle-content' style='position:relative'>
+        <div style='width:100%;margin-top:150px'>
+           <form class='login-form'>
+                <div class="form-group"  style='margin-bottom:30px'>
+                    <input type="email" class="form-control loginId" id="exampleInputEmail1" placeholder="用户名或邮箱">
+                </div>
+                <div class="form-group" style='margin-bottom:30px'>
+                    <input type="password" class="form-control password" id="exampleInputPassword1" placeholder="密码">
+                </div>
+                <a class="btn-main btn-login h-center-block-fix-width">登录</a>
+                <a href='/register.html' class='h-center-block-fix-width btn-register'>注册</a>
+            </form>
+            <!--
+            <div class='login-box h-center-with-wrap-child'>
+                <a href='javascript:;'>
+                    <span class='logo' id='weixin'></span><span>微信</span>
+                </a>
+                <a href='javascript:;'>
+                    <span class='logo' id='qq'></span><span>QQ</span>
+                </a>
+            </div>-->
+        </div>
+    </div>
+
+    <ul class='tab-launcher-bar'>
+        <li><a href="/index.html">首页</a></li>
+        <li><a href="/evaluate.html">申请评测</a></li>
+        <li class='active'><a href="#">未登录</a></li>
+    </ul>
+</div>
+
+
+<script>
+
+$(function() {
+    PageRenderer.initTitleBar();
+});
+
+
+$(function() {
+    PageRenderer.initTitleBar();
+
+    $(".btn-login").click(function(e) {
+        performLogin();
+    });
+});
+
+
+ function performLogin(){
+    // 根据url中的id查询 
+    var name = $(".loginId").val();
+    var passwd = $(".password").val();
+    if (!name) {
+        toast("账号不能会空");
+        return;
+    }
+    if (!passwd || passwd.length < 6) {
+        toast("密码不能会空，且必须大于6位");
+        return;
+    }
+    
+    $.ajax({
+        url: "/api/login",
+        data: {loginId: name, password: passwd},
+        dataType: 'json',
+        success: function(response) {
+            // set cookie ?
+            commonHandleResponse(response, function(resp) {
+                toast("登录成功");
+                var token = response.data.token;
+                // localStorage也存一份
+                storageSet('jwtToken', token);
+                // cookie中设置token
+                document.cookie ="jwtToken=" + token;  
+                setTimeout(function() {
+                    // 注册成功，跳转到'我的页面'
+                    window.location.href = "/my.html";
+                }, 1000);
+            });
+        }, 
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+
+</script>
+
+{% endblock %}

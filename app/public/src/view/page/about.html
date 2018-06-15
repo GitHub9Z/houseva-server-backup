@@ -1,0 +1,51 @@
+{% extends "./layout/base-frame.html" %}
+ 
+{% block body %}
+ 
+<div class='root-body'>
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <a class='prev action-return'><img class='icon-m' src='image/prev.png'></a>
+            <div class='title title-text'>关于</div>
+        </div>
+    </div>
+
+    <div class='middle-content'>
+        <div class='cell'><span class='cell-name'>反馈</span><span class='cell-value'>298860135@qq.com</span></div>
+        <div class='cell'><span class='cell-name'>版本</span><span class='cell-value'>1.0</span></div>
+        <div class='cell'><span class='cell-name'>官网</span><span class='cell-value'>http://www.remjia.com</span></div>
+        <div class='cell'><span class='cell-name'>公众号</span><span class='cell-value'>小鸡评房</span></div>
+    </div>
+</div>
+
+<input class='logginId' value='{{ data.loginId }}' />
+
+<style>
+
+.section-header {
+    background: #f0f0f0;
+    padding: 15px 15px;
+    font-size: 15px;
+}
+
+.section-body {
+    padding: 15px;
+}
+
+.section-body .line {
+    margin-bottom: 10px;
+}
+
+</style>
+
+
+<script>
+
+$(function() {
+    PageRenderer.initTitleBar();
+});
+
+
+</script>
+
+{% endblock %}

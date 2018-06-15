@@ -1,0 +1,60 @@
+{
+  "name": "house-eva",
+  "version": "1.0.0",
+  "description": "house-eva",
+  "main": "server.js",
+  "scripts": {
+    "//": "默认的node 启动: node --harmony server.js, dev环境启动houseva-server:npm start, product环境启动：npm run-script deploy, product重启：npm run-script restart",
+    "start-db": "mongod -f mongo.config",
+    "start": "node_modules/.bin/nodemon --harmony server.js",
+    "deploy-dev": "node_modules/.bin/nodemon --harmony server.js",
+    "deploy": "sudo NODE_ENV='production' forever start -o access.log -e error.log server.js",
+    "restart": "sudo forever restartall"
+  },
+  "keywords": [
+    "koa",
+    "koa-route",
+    "async"
+  ],
+  "author": "aowen",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "del": "^3.0.0",
+    "jsonwebtoken": "^8.1.0",
+    "koa": "2.0.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-compress": "^2.0.0",
+    "koa-favicon": "^2.0.0",
+    "koa-jwt": "^3.2.2",
+    "koa-logger": "^3.0.1",
+    "koa-mount": "^3.0.0",
+    "koa-multer": "^1.0.2",
+    "koa-router": "*",
+    "koa-static": "^4.0.1",
+    "koa-static-cache": "^5.1.1",
+    "koa-views": "^6.1.1",
+    "moment": "^2.18.1",
+    "mongodb": "*",
+    "mongoose": "*",
+    "nunjucks": "^3.0.1",
+    "restler": "^3.4.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "^3.9.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-htmlmin": "^4.0.0",
+    "gulp-mini-css": "^0.0.3",
+    "gulp-requirejs-optimize": "^0.3.2",
+    "gulp-rev": "^8.1.1",
+    "gulp-rev-collector": "^1.2.4",
+    "gulp-sequence": "^1.0.0",
+    "gulp-uglify": "^3.0.0",
+    "nodemon": "^1.11.0"
+  }
+}

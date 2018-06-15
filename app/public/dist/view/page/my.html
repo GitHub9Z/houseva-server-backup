@@ -1,0 +1,60 @@
+{% extends "./layout/base-frame.html" %}
+ 
+{% block body %}
+ 
+<div class='root-body'>
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <span class='logo'>小鸡评房</span>
+            <div class='search-bar'>
+                <input class='search-input' placeholder="搜索楼盘或户型">
+                <img class='icon-m search-icon' src='image/search.png'/>
+            </div>
+        </div>
+    </div>
+
+    <div class='middle-content'>
+        <div class='cell'><span class='cell-name'>用户名</span><span class='cell-value'>{{ data.loginId }}</span></div>
+        <a href='/about.html'>
+            <div class='cell'><span class='cell-name'>关于</span><span class='cell-value'></span></div>
+        </a>
+    </div>
+
+    <ul class='tab-launcher-bar'>
+        <li><a href="/index.html">首页</a></li>
+        <li><a href="/evaluate.html">评测</a></li>
+        <li class='active'><a href="#">我的</a></li>
+    </ul>
+</div>
+
+<input class='logginId' value='{{ data.loginId }}' />
+
+<style>
+
+.section-header {
+    background: #f0f0f0;
+    padding: 15px 15px;
+    font-size: 15px;
+}
+
+.section-body {
+    padding: 15px;
+}
+
+.section-body .line {
+    margin-bottom: 10px;
+}
+
+</style>
+
+
+<script>
+
+$(function() {
+    PageRenderer.initTitleBar();
+});
+
+
+</script>
+
+{% endblock %}

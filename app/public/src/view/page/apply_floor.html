@@ -1,0 +1,38 @@
+{% extends "./layout/base-frame.html" %}
+ 
+{% block body %}
+ 
+<div class='root-body'>
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <a class='prev action-return'><img class='icon-m' src='image/prev.png'></a>
+            <div class='title title-text'>申请评测</div>
+        </div>
+    </div>
+
+    <div style='clear:both'></div>
+
+    <div class='middle-content'>
+        <div class='v-align apply-desc-box'>
+            <div class='apply-title'>499元一层</div>
+            <div class='apply-title-sub'>申请楼层平面日照评测服务步骤</div>
+            <p class='apply-step'>
+            1. 关注"小鸡评房"公众号<br/>
+            2. 留言申请，输入小区名称，楼栋号，楼层和联系邮箱
+            </p>
+        </div>
+        <div class='bottom-share-box'>
+            <a class='btn-main btn-long btn-apply' href='#'>分享得优惠</a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+$(function() {
+    PageRenderer.initTitleBar()
+});
+
+
+</script>
+{% endblock %}

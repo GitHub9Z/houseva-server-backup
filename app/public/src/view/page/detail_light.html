@@ -1,0 +1,80 @@
+{% extends "./layout/base-frame.html" %}
+
+{% block body %}
+
+<div class='root-body'>
+    <!-- title bar -->
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <a class='prev action-return'><img class='icon-m' src='image/prev.png'></a>
+            <div class='title title-text'></div>
+        </div>
+    </div>
+
+    <div style='clear:both'></div>
+
+    <div class='fix-with-root title-nav'>
+        <ul class="nav nav-pills tab-header bottom-tab-header nav-equal-size">
+            <li class='unit'><a>户型</a></li>
+            <li class='active'><a>日照</a></li>
+        </ul>
+    </div>
+
+    <div class='tab-body' style='margin-top:80px'>
+        <ul class="nav nav-pills nav-sub nav-equal-size nav-sub-light-type">
+            <li><a type='sitePlan'>总图日照</a></li>
+            <li><a type='elevationPlan'>楼栋日照</a></li>
+            <li><a type='floor'>楼层日照</a></li>
+        </ul>
+        <div style='clear:both'></div>
+        <div class='tab-body-light tab-body-sub'>
+            <div type='sitePlan' class='light-site-plan-region tab-page'>
+                <div class='image-box image-effect-box'><img style='width:100%'/></div>
+                <div class='image-box image-static-box'><img style='width:100%'/></div>
+                <div class='number-box' style='display:none'><img style='width:100%' src="/image/site_plan_tip.jpg"/></div>
+                <div class='building-avg-hours' style='padding:4px'></div>
+                <!-- 评价区域 -->
+                <div class='comment'></div>
+            </div>
+    
+            <div type='elevationPlan' class='light-elevation-plan-region tab-page'>
+                <ul class="nav nav-pills building-no-nav circle-nav-sm"></ul>
+                <div class='elevation-plan-page'>
+                    <div class='image-box'><img/></div>
+                    <div class='number-box' style='display:none'><img style='width:100%' src="/image/elevation_tip.jpg"/></div>
+                    <div class='hours-box' style='padding:4px'></div>
+                    <div class='head-box' style='padding:0 12px'></div>
+                    <div class='comment'></div>
+                </div>
+                
+            </div>
+            <div type='floor' class='light-floor-region tab-page'>
+                <ul class="nav nav-pills building-no-nav circle-nav-sm"></ul>
+                <ul class="nav nav-pills floor-no-nav"></ul>
+                <div class='floor-page'>
+                    <div class='image-box'><img/></div>
+                    <div class='number-box' style='display:none'><img style='width:100%' src="/image/floor_tip.jpg"/></div>
+                    <div class='hours-box' style='padding:4px'></div>
+                    <div class='comment'></div>
+                </div>
+            </div>
+            <div class='bottom-desc-box' style='display:none'>
+                <div class='desc-sub'>日照说明：黄色数据条中数据为约值，数据仅供参考。日照等级排序：A级> B级>C级> D级</div>
+                <div class='view-count-box'><div class='view-count-wrap'><span class='view-count'></span>次查看</div></div>
+                <div class='desc-sub-sub'>免责声明：日照评测根据规划公示及热心用户提供的数据制作，由于设计，施工，公示，周边建设等变更与误差的影响，无法完全符合建成的情况,仅供用户参考，以开发商提供的日照为准。用户不得将其用于其他任何活动，本网站不承担任何责任。</div>
+            </div>
+
+            <div class='empty-content-info' style='display:none'>
+                <div class='empty-title'>日照评测暂时未制作</div>
+                &nbsp;&nbsp;&nbsp;&nbsp;亲，买房楼层选的太高多花几十万，楼层选的太低，家里一年比人家少晒2400个小时的太阳，长期居住家人小孩的健康极为不利！小鸡评房为买房看房的亲们提供专家级日照，户型评测服务~帮助亲选好房，买对房，选到阳光明媚又性价比高的家。<br/>
+                <a class='btn-main btn-long btn-apply' href='/evaluate.html'>申请专家评测服务</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/module/detail_light.js"></script>
+ 
+ 
+{% endblock %}

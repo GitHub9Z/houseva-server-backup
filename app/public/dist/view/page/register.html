@@ -1,0 +1,127 @@
+{% extends "./layout/base-frame.html" %}
+ 
+{% block body %}
+ 
+<div class='root-body seconday-page'>
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <a class='prev action-return'><img class='icon-m' src='image/prev.png'></a>
+            <div class='title title-text'>注册新用户</div>
+        </div>
+    </div>
+
+    <div class='middle-content' style='position:relative'>
+        <div style='width:100%;margin-top:150px'>
+           <form style='padding:30px 50px'>
+                <div class="form-group"  style='margin-bottom:30px'>
+                    <input class="form-control email" id="exampleInputEmail1" placeholder="用户名或邮箱">
+                </div>
+                <div class="form-group" style='margin-bottom:30px'>
+                    <input type="password" class="form-control password" id="exampleInputPassword1" placeholder="密码">
+                </div>
+                <a class="btn btn-default btn-success h-center-block-fix-width btn-main">注册</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<style>
+
+.section-header {
+    background: #f0f0f0;
+    padding: 15px 15px;
+    font-size: 15px;
+}
+
+.section-body {
+    padding: 15px;
+}
+
+.section-body .line {
+    margin-bottom: 10px;
+}
+
+.login-box a {
+    width: 45px;
+    margin: 10px;
+    text-align: center;
+    display:inline-block;
+    color: #505050;
+}
+
+.login-box .logo {
+    margin:0;
+    display:block; 
+    width:45px; 
+    height:45px; 
+    margin-bottom: 5px;
+    background:url(/image/qtlgn.png) no-repeat;
+}
+
+.login-box #qq {
+    background-position: 0 -45px;
+}
+
+.login-box #weixin {
+    background-position: 0 -90px;
+}
+
+.btn-main {
+    display:block;
+    padding:10px 80px;
+    width: 200px;
+}
+
+
+</style>
+
+
+<script>
+
+$(function() {
+    PageRenderer.initTitleBar();
+
+    $(".btn-main").click(function(e) {
+        performRegister();
+    });
+});
+
+
+ function performRegister(){
+    // 根据url中的id查询 
+    var name = $(".email").val();
+    var passwd = $(".password").val();
+    if (!name) {
+        toast("账号不能会空");
+        return;
+    }
+    if (!passwd || passwd.length < 6) {
+        toast("密码不能会空，且必须大于6位");
+        return;
+    }
+    
+    $.ajax({
+        url: "/api/register",
+        data: {loginId: name, password: passwd},
+        dataType: 'json',
+        success: function(response){
+            commonHandleResponse(response, function(resp) {
+                toast("注册成功");
+                // 注册成功，跳转到'我的页面'
+                // 登录账号和token放入cookie内
+                setTimeout(function() {
+                     window.location.href = "/my.html";
+                }, 1000);
+            });
+        }, 
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+
+</script>
+
+{% endblock %}

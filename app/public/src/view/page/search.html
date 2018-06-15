@@ -1,0 +1,105 @@
+{% extends "./layout/base-frame.html" %}
+ 
+{% block body %}
+ 
+<div class='root-body seconday-page'>
+    <div class='title-bar'>
+        <div class='linear-layout'>
+            <a class='prev action-return'><img class='icon-m' src='image/prev.png'></a>
+            <div class='search-bar'>
+                <input class='search-input' placeholder="输入楼盘名或者户型名" autofocus>
+                <img class='icon-m search-icon' src='image/search.png'/>
+            </div>
+        </div>
+    </div>
+    <div class='middle-content'>
+        <div class='tip-box' style='padding: 20px;'>
+            <p>目前开放<b>杭州</b>内部分楼盘搜索, 其他城市尽情期待</p>
+        </div>
+        <!-- 楼盘列表 -->
+        <div class='search-wrap' style='display:none'>
+            <div class='list-header'>搜索结果</div>
+            {% include "tile/evaluate_list.html" %}
+        </div>
+        <div class='fail-box' style='padding:20px;display:none;'>
+            评测未发布，亲若有该楼盘的总平面或户型图，请邮箱发送给我们298860135@qq.com~，小鸡会加快评测。
+        </div>
+        <div style='clear:both'></div>
+    </div>
+</div>
+
+<script>
+
+var querying = false;
+ $(function() {
+    PageRenderer.initTitleBar({jumpSearch: false});
+    $(".search-input").keyup(function(event) {
+        if (event.keyCode === 13) {
+            performSearch();
+        }
+    });
+    // 初始化页面响应逻辑
+    $(".search-icon").click(function(e) {
+        performSearch();
+    });
+    toggleSearch(false, true);
+});
+
+
+function performSearch() {
+    var key = $(".search-input").val();
+    if (!key) {
+        toggleSearch(false, true);
+        return;
+    }
+    if (querying) {
+        return;
+    }
+
+    querying = true;
+    $.ajax({
+        url: "/api/search",
+        data: {key: key, targets: 'real_estate|unit'},
+        dataType: 'json',
+        success: function(response){
+            querying = false;
+            // console.log(response);
+            if (response.success && response.data && response.data.length > 0) {
+                toggleSearch(true);
+                PageRenderer.renderEvaluateList($(".search-wrap"), response.data);
+            } else {
+                toggleSearch(false);
+            }
+        }, 
+        error: function(response) {
+            querying = false;
+            toggleSearch(false);
+            console.debug(response);
+        }
+    });
+}
+
+
+function toggleSearch(hasResult, showTip) {
+    var listWrapView = $(".search-wrap");
+    var failView = $('.fail-box');
+    if (showTip){
+        $(".tip-box").show();
+        listWrapView.hide();
+        failView.hide();
+    } else {
+        $(".tip-box").hide();
+        if (hasResult) {
+            listWrapView.show();
+            failView.hide();
+        } else {
+            listWrapView.hide()
+            failView.show();
+        }
+    }
+}
+
+
+</script>
+
+{% endblock %}
