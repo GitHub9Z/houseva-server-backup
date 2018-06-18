@@ -45,6 +45,10 @@ PageController.applyBuilding = async function(ctx) {
     await ctx.render(buildHtmlFilePath('apply_building.html'));
 }
 
+PageController.login = async function(ctx) {
+    await ctx.render(buildHtmlFilePath('login.html'));
+}
+
 PageController.applyFloor = async function(ctx) {
     await ctx.render(buildHtmlFilePath('apply_floor.html'));
 }
