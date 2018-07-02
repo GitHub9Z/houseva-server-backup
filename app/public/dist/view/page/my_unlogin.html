@@ -1,7 +1,7 @@
 {% extends "./layout/base-frame.html" %}
  
 {% block body %}
- 
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101485090" data-redirecturi="http://www.xaoji.com/index.html" charset="utf-8"></script>
 <div class='root-body'>
     <div class='title-bar'>
         <div class='linear-layout'>
@@ -22,9 +22,37 @@
                 <div class="form-group" style='margin-bottom:30px'>
                     <input type="password" class="form-control password" id="exampleInputPassword1" placeholder="密码">
                 </div>
-                <a class="btn-main btn-login h-center-block-fix-width">登录</a>
-                <a href='/login.html' class='h-center-block-fix-width btn-register'>QQ登录</a>
-                <a href='/register.html' class='h-center-block-fix-width btn-register'>注册</a>
+                <a class="btn-main btn-login h-center-block-fix-width" style="margin-bottom: 20px">登录</a>
+                <span id="qqLoginBtn"style="text-align: center;display:block;"></span>
+                <script type="text/javascript">
+                    QC.Login({
+                        //btnId：插入按钮的节点id，必选
+                        btnId:"qqLoginBtn",    
+                        //用户需要确认的scope授权项，可选，默认all
+                        scope:"all",
+                        //按钮尺寸，可用值[A_XL| A_L| A_M| A_S|  B_M| B_S| C_S]，可选，默认B_S
+                        size: "A_L"
+                    }, function(reqData, opts){//登录成功
+                        //根据返回数据，更换按钮显示状态方法
+                        var dom = document.getElementById(opts['btnId']),
+                        _logoutTemplate=[
+                             //头像
+                             '<span><img src="{figureurl}" class="{size_key}"/></span>',
+                             //昵称
+                             '<span>{nickname}</span>',
+                             //退出
+                             '<span><a href="javascript:QC.Login.signOut();">退出</a></span>'    
+                        ].join("");
+                        dom && (dom.innerHTML = QC.String.format(_logoutTemplate, {
+                            nickname : QC.String.escHTML(reqData.nickname), //做xss过滤
+                            figureurl : reqData.figureurl
+                        }));
+                    }, function(opts){//注销成功
+                          alert('QQ登录 注销成功');
+                    }
+                 );
+                 
+                      </script>
             </form>
             <!--
             <div class='login-box h-center-with-wrap-child'>
