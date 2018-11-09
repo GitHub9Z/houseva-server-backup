@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////
 
 var viewData = null;
+var num;
 var unitNo;
 
 $(function() {    
@@ -14,6 +15,76 @@ $(function() {
 
     $(".tab-header .light a").on("click", function(){
         location.href = "/detail.html?id=" + id;
+    });
+
+    $.ajax({
+        url: "/api/queryZan",
+        data: {real_estate_id:id},
+        dataType: 'json',
+        success: function(response) {
+            commonHandleResponse(response, function(resp) {
+                num = response.data['zan_number'];
+                document.getElementById("zan-num").innerHTML='<font color="#BEBEBE">'+(++num)+'</font>';
+                $(".zan").on("click", function(){
+                $.ajax({
+                        url: "/api/zan",
+                        data: {real_estate_id:id,zan_number:1},
+                        dataType: 'json',
+                        success: function(response) {
+                            // set cookie ?
+                            commonHandleResponse(response, function(resp) {
+                                document.getElementById("zan-num").innerHTML='<font color="#BEBEBE">'+(++num)+'</font>';
+                                document.getElementById("zan").innerHTML='<img src="image/zan_down.png" height="40" width="40">';
+                            });
+                        }, 
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                });
+            },function(resp){
+                num = 0;
+                document.getElementById("zan-num").innerHTML='<font color="#BEBEBE">'+num+'</font>';
+                $(".zan").on("click", function(){
+                $.ajax({
+                        url: "/api/zan",
+                        data: {real_estate_id:id,zan_number:1},
+                        dataType: 'json',
+                        success: function(response) {
+                            // ssssss
+                            commonHandleResponse(response, function(resp) {
+                                document.getElementById("zan-num").innerHTML='<font color="#BEBEBE">'+(++num)+'</font>';
+                                document.getElementById("zan").innerHTML='<img src="image/zan_down.png" height="40" width="40">';
+                            });
+                        }, 
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                });
+            });
+        }, 
+        error: function(response) {
+            num = 0;
+            document.getElementById("zan-num").innerHTML='<font color="#BEBEBE">'+num+'</font>';
+            $(".zan").on("click", function(){
+                $.ajax({
+                        url: "/api/zan",
+                        data: {real_estate_id:id,zan_number:1},
+                        dataType: 'json',
+                        success: function(response) {
+                            // ssssss
+                            commonHandleResponse(response, function(resp) {
+                                document.getElementById("zan-num").innerHTML="("+(++num)+")";
+                                document.getElementById("zan").innerHTML='<img src="image/zan_down.png" height="40" width="40">';
+                            });
+                        }, 
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+            });
+        }
     });
 
     // hash 路由响应
@@ -302,8 +373,11 @@ function renderBasicInfo(pageView, data) {
     var viewCount = viewModel.view_count;
     if (!viewCount) {
         viewCount = 0;
+    }else
+    {
+        viewCount = (viewCount+num)*4+3;
     }
-    $(".view-count-box .view-count").html(viewCount);
+    document.getElementById("see_count").innerHTML='<font color="#BEBEBE">'+viewCount+'</font>';
 }
 
 

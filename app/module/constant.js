@@ -12,7 +12,6 @@ var Export = {
       RESPONSE_CODE_DUP : 103,
 
       RESPONSE_CODE_INVALID_ARGUMENT : 101,
-
       
       RESPONSE_EMPTY_DATA:200,
 

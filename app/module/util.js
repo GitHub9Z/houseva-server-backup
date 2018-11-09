@@ -27,7 +27,7 @@ Export.isSameData = function(oldData, newData) {
 
 
 Export.nowDateTime = function() {
-    return moment().format("YYYY-MM-DD HH:MM:SS");
+    return moment().format("YYYY-MM-DD HH:mm:ss");
 }
     
 

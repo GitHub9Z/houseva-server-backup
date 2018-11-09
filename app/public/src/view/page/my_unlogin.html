@@ -1,7 +1,8 @@
 {% extends "./layout/base-frame.html" %}
  
 {% block body %}
- 
+
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101485090" data-redirecturi="http://www.xaoji.com/my.html" charset="utf-8"></script>
 <div class='root-body'>
     <div class='title-bar'>
         <div class='linear-layout'>
@@ -22,19 +23,55 @@
                 <div class="form-group" style='margin-bottom:30px'>
                     <input type="password" class="form-control password" id="exampleInputPassword1" placeholder="密码">
                 </div>
-                <a class="btn-main btn-login h-center-block-fix-width">登录</a>
-                <a class="qq-login-btn">QQ登录</a>
-                <a href='/register.html' class='h-center-block-fix-width btn-register'>注册</a>
+                <a class="btn-main btn-login h-center-block-fix-width" style="margin-bottom: 20px">登录</a>
+                <span id="qqLoginBtn"style="text-align: center;display:block;"></span>
+                <script type="text/javascript">
+                    QC.Login({
+                        btnId:"",    
+                    }, function(reqData, opts){//登录成功
+                       performQQLogin(reqData.nickname,reqData.nickname);
+                    }, function(opts){//注销成功
+                          alert('QQ登录 注销成功');
+                    }
+                 );
+                 
+                </script>
             </form>
-            <!--
-            <div class='login-box h-center-with-wrap-child'>
-                <a href='javascript:;'>
-                    <span class='logo' id='weixin'></span><span>微信</span>
+            <div class="share-line">
+                <a class="qq_login" style="display:inline-block;width:100px;text-align: center">
+                    <img onclick="javascript:qqLogin()" src="image/qq_login.png" height="40" width="40">
                 </a>
-                <a href='javascript:;'>
-                    <span class='logo' id='qq'></span><span>QQ</span>
+                <a class="wechat_login" style="display:inline-block;width:100px;text-align: center">
+                    <img src="image/wechat_login.png" height="40" width="40">
                 </a>
-            </div>-->
+                <a id="id_register" href='/register.html' class='zan'  style="display:inline-block;width:100px;text-align: center">
+                    <img src="image/id_login.png" height="40" width="40">
+                </a>
+            </div>
+            <div class="share-line" style='margin-bottom:30px'>
+                <b id="qq_login" style="display: inline-block;width:100px; text-align: center">
+                    <font color="#BEBEBE">QQ登陆</font>
+                </b>
+                <b id="wechat_login" style="display: inline-block;width:100px;text-align: center">
+                    <font color="#BEBEBE">微信登陆</font>
+                </b>
+                <b id="id_register" style="display: inline-block;width:100px;text-align: center">
+                    <font color="#BEBEBE">注册账号</font>
+                </b>
+            </div>
+            <div class="gzh-box">
+                <div class="gzh-box-inside">
+                    <a style="display:inline-block;width:60px;height:115px;text-align: center">
+                        <img src="image/logo.png" height="50" width="50">
+                    </a>
+                    <b style="display: inline-block;width:160px;text-align: left;margin-left:20px">
+                        <font color="#000000" size="4">小鸡微信平台</font>
+                    </b>
+                    <a style="display:inline-block;width:100px;height:115px;text-align: center">
+                        <img src="image/gz_scan.jpg" height="113" width="113">
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -44,7 +81,6 @@
         <li class='active'><a href="#">未登录</a></li>
     </ul>
 </div>
-
 
 <script>
 
@@ -61,6 +97,10 @@ $(function() {
     });
 });
 
+    function qqLogin() {
+        var url = 'https://graph.qq.com/oauth2.0/authorize?client_id=' + QC.getAppId() + '&response_type=token&redirect_uri=' + encodeURIComponent("http://www.xaoji.com/my.html");
+        return window.open(url, 'oauth2Login_qq' ,'height=525,width=585, toolbar=no, menubar=no, scrollbars=no, status=no, location=yes, resizable=yes');
+    }
 
  function performLogin(){
     // 根据url中的id查询 
@@ -101,6 +141,67 @@ $(function() {
 }
 
 
+ function performQQLogin(nickname,openid){
+    // 根据qq登录回调
+    var name = nickname;
+    var passwd = openid;
+    
+    $.ajax({
+        url: "/api/register",
+        data: {loginId: name, password: passwd},
+        dataType: 'json',
+        success: function(response){
+            $.ajax({
+        url: "/api/login",
+        data: {loginId: name, password: passwd},
+        dataType: 'json',
+        success: function(response) {
+            // set cookie ?
+            commonHandleResponse(response, function(resp) {
+                toast("登录成功");
+                var token = response.data.token;
+                // localStorage也存一份
+                storageSet('jwtToken', token);
+                // cookie中设置token
+                document.cookie ="jwtToken=" + token;  
+                setTimeout(function() {
+                    // 注册成功，跳转到'我的页面'
+                    window.location.href = "/my.html";
+                }, 1000);
+            });
+        }, 
+        error: function(response) {
+            console.log(response);
+        }
+    });
+        }, 
+        error: function(response) {
+            $.ajax({
+        url: "/api/login",
+        data: {loginId: name, password: passwd},
+        dataType: 'json',
+        success: function(response) {
+            // set cookie ?
+            commonHandleResponse(response, function(resp) {
+                toast("登录成功");
+                var token = response.data.token;
+                // localStorage也存一份
+                storageSet('jwtToken', token);
+                // cookie中设置token
+                document.cookie ="jwtToken=" + token;  
+                setTimeout(function() {
+                    // 注册成功，跳转到'我的页面'
+                    window.location.href = "/my.html";
+                }, 1000);
+            });
+        }, 
+        error: function(response) {
+            console.log(response);
+        }
+    });
+        }
+    });
+}
 </script>
 
 {% endblock %}

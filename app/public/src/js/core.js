@@ -53,6 +53,32 @@ PageRenderer.renderEvaluateList = function(listViewWrap, list) {
     });
 }
 
+/**
+ * 根据原浏览量和点赞数渲染浏览量
+ */
+function renderCount(view, id, viewCount) {
+    $.ajax({
+        url: "/api/queryZan",
+        data: {real_estate_id:id},
+        dataType: 'json',
+        success: function(response) {
+            commonHandleResponse(response, 
+                function(resp) {
+                    num = response.data['zan_number'];
+                    viewCount=(viewCount+num)*4+3;
+                    view.find(".view-info").html(viewCount + "次查看");
+                },
+                function(resp) {
+                    viewCount=(viewCount)*4+3;
+                    view.find(".view-info").html(viewCount + "次查看");
+                });
+        }, 
+        error: function(response) {
+            viewCount=(viewCount)*4+3;
+            view.find(".view-info").html(viewCount + "次查看");
+        }
+    });
+}
 
 PageRenderer.renderRealEstateItem = function(itemView, item) {
     var linkUrl = '/detail.html?id=' + item._id;
@@ -108,7 +134,7 @@ PageRenderer.renderRealEstateItem = function(itemView, item) {
     if (item.lightSitePlan && item.lightSitePlan.view_count) {
         viewCount = item.lightSitePlan.view_count;
     }
-    view.find(".view-info").html(viewCount + "次查看");
+    renderCount(view,item.lightSitePlan.real_estate_id,viewCount);
 }
 
 
@@ -154,7 +180,7 @@ PageRenderer.renderUnitItem = function(itemView, item) {
     if (!viewCount) {
         viewCount = 0;
     }
-    view.find(".view-info").html(viewCount + "次查看");
+    renderCount(view,item.real_estate_id,viewCount);
 }
 
 
@@ -218,7 +244,6 @@ function commonHandleResponse(resp, successCallback, failCallback) {
         successCallback(resp);
     } else {
         // common fail
-        toast(resp.resultView);
         if (failCallback != null) {
             failCallback(resp);
         }

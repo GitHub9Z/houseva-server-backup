@@ -40,7 +40,9 @@
     "moment": "^2.18.1",
     "mongodb": "*",
     "mongoose": "*",
+    "node-smushit": "^0.5.1",
     "nunjucks": "^3.0.1",
+    "request": "^2.88.0",
     "restler": "^3.4.0"
   },
   "devDependencies": {

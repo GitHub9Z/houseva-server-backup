@@ -10,8 +10,9 @@ var adminController = require("./admin/admin_controller.js");
 const moment = require("moment");
 // mongoose文档： http://www.nodeclass.com/api/mongoose.html#guide_queries
 const Mongoose = require("mongoose");
-
 const path = require('path');
+const tinify = require('tinify');
+tinify.key = "L3x8KZw8Fi8BKmd9HFiYbMu9DlZSnfzq";
 
 var Main = {};
 
@@ -25,7 +26,8 @@ var storage = Multer.diskStorage({
         cb(null, UPLOAD_PATH);
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '_' + makeid(6) + path.extname(file.originalname));
+        //cb(null, Date.now() + '_' + makeid(6) + path.extname(file.originalname));
+        cb(null, file.originalname)
     }
 });
 
@@ -76,13 +78,16 @@ function createRouteMap(router) {
     // 图片上传接口
     // 特殊接口，由于依赖Muler, 必须单独定义
     router.post("/api/uploadImage", ImageUploader.single("pic"), async (ctx, next) => {
-        console.log(ctx.req);
         // single时req.file有值
         var origin = ctx.req.file.originalname;
         // 获取后缀
         var ext = path.extname(origin);
         var fileName = ctx.req.file.filename;
         var url = '/' + UPLOAD_PATH + '/' + ctx.req.file.filename;
+
+        console.log(ctx.req.file.path)
+        var source = tinify.fromFile(ctx.req.file.path);
+        source.toFile(ctx.req.file.path + "_optimized.jpg");
 
         ctx.body = {
             // 最终生成的url
@@ -135,7 +140,9 @@ function createAdminRouterMap(router) {
     router.get("/admin/api/search", adminController.search);
     
     router.get("/admin/api/get_real_estate_list", adminController.getRealEstateList);
+    router.get("/admin/api/get_ad_list", adminController.getAdList);
     router.post("/admin/api/get_real_estate_units", adminController.getRealEstateUnits);
+    router.post("/admin/api/save_ad_list", adminController.saveAdList);
 
     router.post("/admin/api/save_real_estate", adminController.saveRealEstate);
     router.post("/admin/api/publish_real_estate", adminController.publishRealEstate);

@@ -27,6 +27,9 @@
             <li><a type='floor'>楼层日照</a></li>
         </ul>
         <div style='clear:both'></div>
+        <div>
+            <img src='image/ggw.jpg' style='width:100%;max-height:200px;'></img>
+        </div>
         <div class='tab-body-light tab-body-sub'>
             <div type='sitePlan' class='light-site-plan-region tab-page'>
                 <div class='image-box image-effect-box'><img style='width:100%'/></div>
@@ -60,8 +63,58 @@
             </div>
             <div class='bottom-desc-box' style='display:none'>
                 <div class='desc-sub'>日照说明：黄色数据条中数据为约值，数据仅供参考。日照等级排序：A级> B级>C级> D级</div>
-                <div class='view-count-box'><div class='view-count-wrap'><span class='view-count'></span>次查看</div></div>
-                <div class='desc-sub-sub'>免责声明：日照评测根据规划公示及热心用户提供的数据制作，由于设计，施工，公示，周边建设等变更与误差的影响，无法完全符合建成的情况,仅供用户参考，以开发商提供的日照为准。用户不得将其用于其他任何活动，本网站不承担任何责任。</div>
+                <div class="share-line" style="text-align: center">
+                    <a id="zan" class='zan'  style="display:inline-block;width:100px;text-align: center">
+                        <img src="image/zan_up.png" height="40" width="40">
+                    </a>
+                    <a class="see" style="display:inline-block;width:100px;text-align: center">
+                        <img src="image/see.png" height="40" width="40">
+                      </a>
+                    <script type="text/javascript">
+                        (function(){
+                        var p = {
+                        url:location.href,
+                        showcount:'1',/*是否显示分享总数,显示：'1'，不显示：'0' */
+                        desc:'小鸡评房',/*默认分享理由(可选)*/
+                        summary:'小鸡评房',/*分享摘要(可选)*/
+                        title:'小鸡评房',/*分享标题(可选)*/
+                        site:'小鸡评房',/*分享来源 如：腾讯网(可选)*/
+                        pics:'小鸡评房pic', /*分享图片的路径(可选)*/
+                        style:'102',
+                        width:145,
+                        height:30
+                        };
+                        var s = [];
+                        for(var i in p){
+                        s.push(i + '=' + encodeURIComponent(p[i]||''));
+                        }
+                        document.write(['<a class="share" style="display:inline-block;width:100px;text-align: center" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?',s.join('&'),'"><img src="image/share.png" height="35" width="35"></a>'].join(''));
+                    })();
+                        </script>
+                  </div>
+                  <div class="share-line" style="text-align: center">
+                    <b id="zan-num" style="display: inline-block;width:100px; text-align: center">
+                        <font color="#BEBEBE">321</font>
+                    </b>
+                    <b id="see_count" style="display: inline-block;width:100px;text-align: center">
+                        <font color="#BEBEBE">321</font>
+                    </b>
+                    <b style="display: inline-block;width:100px;text-align: center">
+                        <font color="#BEBEBE">分享到</font>
+                    </b>
+                  </div>
+                  <div class="share-line" style="margin-bottom: 20px;text-align: center">
+                    <b style="display: inline-block;width:100px;text-align: center">
+                        <font color="#BEBEBE">点赞数</font>
+                    </b>
+                    <b style="display: inline-block;width:100px;text-align: center">
+                        <font color="#BEBEBE">浏览量</font>
+                    </b>
+                    <b style="display: inline-block;width:100px;text-align: center">
+                        <font color="#BEBEBE">QQ空间</font>
+                    </b>
+                  </div>
+                    <div class='desc-sub-sub'>免责声明：日照评测根据规划公示及热心用户提供的数据制作，由于设计，施工，公示，周边建设等变更与误差的影响，无法完全符合建成的情况,仅供用户参考，以开发商提供的日照为准。用户不得将其用于其他任何活动，本网站不承担任何责任。</div>
             </div>
 
             <div class='empty-content-info' style='display:none'>

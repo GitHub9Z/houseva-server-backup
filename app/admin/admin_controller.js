@@ -5,40 +5,35 @@
 //
 ////////////////////////////////////////////////////////
 
-require("../model/real_estate_model.js");
-require("../model/light_site_plan_model.js");
 require("../model/light_elevation_plan_model.js");
-require("../model/light_floor_model.js");
+require("../model/unit_window_ventilate.js");
+require("../model/light_site_plan_model.js");
 require("../model/light_window_model.js");
+require("../model/real_estate_model.js");
+require("../model/light_floor_model.js");
+require("../model/unit_region_flow.js");
 require("../model/unit_basic_info.js");
 require("../model/unit_room_area.js");
-require("../model/unit_region_flow.js");
-require("../model/unit_window_ventilate.js");
 require("../model/unit_detail.js");
-// require('../model/unit_synthesis.js')
+require("../model/ad_list.js");
 
-const Mongoose = require("mongoose");
 const Constant = require("../module/constant.js");
-const Util = require("../module/util.js");
+const     Util = require("../module/util.js");
+const Mongoose = require("mongoose");
 
-// 模型
-var RealEstate = Mongoose.model("RealEstate");
-var LightSitePlan = Mongoose.model("LightSitePlan");
-var LightElevationPlan = Mongoose.model("LightElevationPlan");
-var LightFloor = Mongoose.model("LightFloor");
-var LightWindow = Mongoose.model("LightWindow");
-
-// var UnitSynthesis = Mongoose.model("UnitSynthesis");
-var UnitBasicInfo = Mongoose.model("UnitBasicInfo");
-var UnitRoomArea = Mongoose.model("UnitRoomArea");
-var UnitRegionFlow = Mongoose.model("UnitRegionFlow");
 var UnitWindowVentilate = Mongoose.model("UnitWindowVentilate");
-var UnitDetail = Mongoose.model("UnitDetail");
+var  LightElevationPlan = Mongoose.model("LightElevationPlan");
+var      UnitRegionFlow = Mongoose.model("UnitRegionFlow");
+var       LightSitePlan = Mongoose.model("LightSitePlan");
+var       UnitBasicInfo = Mongoose.model("UnitBasicInfo");
+var        UnitRoomArea = Mongoose.model("UnitRoomArea");
+var         LightWindow = Mongoose.model("LightWindow");
+var          RealEstate = Mongoose.model("RealEstate");
+var          LightFloor = Mongoose.model("LightFloor");
+var          UnitDetail = Mongoose.model("UnitDetail");
+var              AdList = Mongoose.model("AdList")
 
-
-var AdminController = {
-     
-}
+var AdminController = {}
 
 
 /**
@@ -131,6 +126,19 @@ AdminController.getRealEstateList = async function(ctx) {
     if (result) {
         // 查询每个楼盘对应的总图分析/立面日照分析, 楼层日照分析(参考项目?)
         await AdminController.queryLightDataForRealEstateList(result);
+        ctx.body = { success: true, data: result }; 
+    } 
+}
+
+
+/**
+ * 查询广告位配置
+ */
+AdminController.getAdList = async function(ctx) {
+    var reqData = ctx.request.body;
+    // lean() 将结果转化为js object格式
+    var result = await AdList.find({ }).lean().exec();
+    if (result) {
         ctx.body = { success: true, data: result }; 
     } 
 }
@@ -358,6 +366,61 @@ AdminController.saveLightFloors = async function(ctx) {
     }
 }
 
+
+/**
+ * 保存广告位配置
+ */
+AdminController.saveAdList = async function(ctx) {
+    var reqData = ctx.request.body;
+    if (!reqData || reqData.length <= 0) {
+        ctx.body = { success: false, code: Constant.RESPONSE_CODE_INVALID_ARGUMENT, msg: "参数错误" };
+        return;
+    }
+
+    var dupArray = [];
+    var data = [];
+    var createNewItem = function(itemData, isUpdate) {
+        var obj = AdminController.fromData(['ad_id', 'ad_image_url', 'ad_url', 'ad_weight'], itemData);
+        obj['update_time'] = Util.nowDateTime();
+        if (!isUpdate) {
+            obj.create_time = Util.nowDateTime();
+            obj.ad_browse = 0;
+            obj.ad_click = 0;
+        }
+        return obj;
+    };
+
+    for (var key in reqData) {
+        var item = reqData[key];
+        var result = await AdList.findOne({
+            ad_id: item.ad_id,
+        }).exec();
+        // console.log("find result: ", result);
+        if (result) {
+            // 更新逻辑
+            if (!Util.isSameData(result, item)) {
+                // 有部分字段不同，需要更新
+                var newItem = createNewItem(item, true);
+                console.log("update Item： ", newItem);
+                var result = await AdList.update({ _id: result._id }, { $set: newItem }).exec();
+                data.push(newItem);
+            } else {
+                // 重复数据，不进行任何处理
+                dupArray.push(result);
+            }
+        } else {
+            var newItem = new AdList(createNewItem(item, false));
+            var r = await newItem.save();
+            data.push(r);
+        }
+    }
+
+    if (data.length <= 0) {
+        ctx.body = { success: false, dup: dupArray };
+    } else {
+        ctx.body = { success: true, data: data, dup: dupArray };
+    }
+}
 
 /**
  * @deprecated
@@ -646,7 +709,6 @@ AdminController.commonSaveData = async function(ctx, options) {
     var reqData = ctx.request.body;
     var dataModel = options.dataModel;
     var findKeys = options.findKeys;
-
     var findParams = {};
     for (var k in findKeys) {
         var key = findKeys[k];
@@ -654,6 +716,7 @@ AdminController.commonSaveData = async function(ctx, options) {
     }
 
     var result = await dataModel.findOne(findParams).exec();
+
     var newDataKeys = options.newDataKeys;
 
     var createNewItem = function(itemData, isUpdate) {
@@ -674,6 +737,7 @@ AdminController.commonSaveData = async function(ctx, options) {
         // 更新逻辑
         if (!Util.isSameData(result, reqData)) {
             // 有部分字段不同，需要更新
+
             var newItem = createNewItem(reqData, true);
             console.log("update Item： ", newItem);
             var result = await dataModel.update({ _id: result._id }, { $set: newItem }).exec();
@@ -683,7 +747,7 @@ AdminController.commonSaveData = async function(ctx, options) {
             ctx.body = { success: true,  msg: "更新成功",  data: newItem };
         } else {
             // 重复数据，不进行任何处理
-            ctx.body = { success: false,  code: Constant.RESPONSE_CODE_DUP, msg: "数据 已存在!", data: result };
+            ctx.body = { success: true,  code: Constant.RESPONSE_CODE_DUP, msg: "数据 已存在!", data: result };
         }
     } else {
         var newItem = new dataModel(createNewItem(reqData, false));
@@ -694,6 +758,55 @@ AdminController.commonSaveData = async function(ctx, options) {
         ctx.body = { success: true, data: r };
     }
 }
+
+
+AdminController.commonSaveZanData = async function(ctx, options) {
+    var reqData = ctx.request.query;
+    var dataModel = options.dataModel;
+    var findKeys = options.findKeys;
+    var findParams = {};
+    for (var k in findKeys) {
+        var key = findKeys[k];
+        findParams[key] = reqData[key];
+    }
+
+    var result = await dataModel.findOne(findParams).exec();
+
+    var newDataKeys = options.newDataKeys;
+
+    var createNewItem = function(itemData, isUpdate) {
+        var data = {};
+        for (var k in newDataKeys) {
+            var key = newDataKeys[k];
+            data[key] = reqData[key];
+        }
+        data['update_time'] = Util.nowDateTime();
+        if (!isUpdate) {
+            data.create_time = Util.nowDateTime();
+        }
+        return data;
+    };
+
+    if (result) {
+            // 有部分字段不同，需要更新
+
+            var newItem = createNewItem(reqData, true);
+            console.log("update Item： ", newItem);
+            var result = await dataModel.update({ _id: result._id }, { $inc: {zan_number:newItem['zan_number']} }).exec();
+            if (options.resultCallback) {
+                options.resultCallback();
+            }
+            ctx.body = { success: true,  msg: "更新成功",  data: newItem };
+    } else {
+        var newItem = new dataModel(createNewItem(reqData, false));
+        var r = await newItem.save();
+        if (options.resultCallback) {
+            options.resultCallback();
+        }
+        ctx.body = { success: true, data: r };
+    }
+}
+
 
 
 AdminController.fromData = function(keys, source) {

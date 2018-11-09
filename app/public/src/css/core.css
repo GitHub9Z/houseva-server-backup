@@ -748,7 +748,6 @@ a:focus, a:hover {
 }
 
 .view-count {
-    font-size: 18px;
     margin-right:1px;
 }
 
@@ -856,4 +855,22 @@ a:focus, a:hover {
 
 #cnzz_stat_icon_1273541165 {
     display: none;
+}
+
+.share-line{
+    text-align: center;
+    font-size: 12px;
+    margin: 0 0 5px 0;
+}
+
+.gzh-box{
+    text-align: center;
+    margin: 0 0 5px 0;
+}
+
+.gzh-box-inside{
+    width:385px; 
+    height:115px; 
+    border:1px solid rgb(194, 191, 191);
+    margin:0px auto;
 }
